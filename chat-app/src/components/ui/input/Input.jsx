@@ -3,9 +3,14 @@ import React from 'react'
 
 export const Input = (props) => {
   return (
-    <div>
+    <div className='input__wrapper'>
       <label>{props.label}</label>
-      <input type={props.type} placeholder={props.placeholder}/>
+      <input
+        style={props.style} 
+        onChange={props.onChange} 
+        type={props.type} 
+        placeholder={props.placeholder}
+      />
     </div>
   )
 }

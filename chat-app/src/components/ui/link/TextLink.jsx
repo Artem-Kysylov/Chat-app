@@ -3,8 +3,13 @@ import { Link } from 'react-router-dom'
 
 export const TextLink = (props) => {
   return (
-    <Link to={props.to}>         
+    <span className="text__link">
+      <Link 
+        to={props.to} 
+        onClick={props.onClick}
+      >         
         {props.text}
-    </Link>
+      </Link>
+    </span>
   )
 }

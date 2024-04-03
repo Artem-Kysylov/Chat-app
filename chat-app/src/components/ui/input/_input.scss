@@ -1,0 +1,25 @@
+.input__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px ;
+    align-items: flex-start;
+
+    label {
+        color: $black;
+    }
+
+    input {
+        padding: 20px;
+        border: 1px solid $dark-smooth;
+        border-radius: 10px;
+
+        &:placeholder {
+            font-family: 'Inter', sans-serif;
+            color: $light-grey;
+        }
+
+        &:focus {
+            border: 1px solid $primary;
+        }
+    }
+}
