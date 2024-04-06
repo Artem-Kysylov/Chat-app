@@ -53,24 +53,27 @@ export const Signin = () => {
   }, [user])
 
   return (
-    <div>
-      <div></div>
-      <div>
-        <h1>Sign in to your account</h1>
+    <div className='signin__wrapper'>
+      <div className="logo">Logo</div>
+      <div className='signin__content'>
+        <h1 className='signin__content-title'>Sign in to your account</h1>
         <form onSubmit={handleSubmit}>
           <Input
+            style={{width: '100%'}}
             label='Email address'
             type='email'
             placeholder='mail@mail.com'
             onChange={(e) => setEmail(e.target.value)}
           />
           <Input
+            style={{width: '100%'}}
             label='Password'
             type='password'
             placeholder='Enter your password here...'
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button
+            style={{width: '100%'}}
             text='Sign in'
           />
       </form>
@@ -80,21 +83,26 @@ export const Signin = () => {
           text='Sign up'
         />
       </p>
+      <div className="signin__content-hint">
+        <div className="hint__line"></div>
+        <p className='hint__text'>Or</p>
+        <div className="hint__line"></div>
+      </div>
       <GoogleButton
-        onClick={HandleGoogleSignIn}
-        label='Sign in with Google'
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: '16px',
           height: '57px', 
-          backgroundColor: '#FFF', 
+          backgroundColor: 'white', 
           color: '#121212',
           fontWeight: 'bold',
           border: '1px solid #ACACAC', 
           borderRadius: '10px',
           boxShadow: 'none',                    
         }}
+        onClick={HandleGoogleSignIn}
+        label='Sign in with Google'
       />
       </div>
     </div>

@@ -1,20 +1,16 @@
-// Sign up component styles 
-.signup__wrapper {
+.signin__wrapper {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
     height: 100vh;
-    background: url('../../assets/images/bg-image.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;    
+    background: $black;
 
     .logo {
         flex: 1;
     }
 
-    .signup__content {
+    .signin__content {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -24,7 +20,7 @@
         border-radius: 20px;
         background: white;
 
-        .signup__content-title {
+        .signin__content-title {
             font-size: 35px;
             color: $black;
             font-weight: 700;
@@ -37,7 +33,7 @@
             align-items: flex-start;
         }
 
-        .signup__content-hint {
+        .signin__content-hint {
             display: flex;
             align-items: center;
             gap: 8px;

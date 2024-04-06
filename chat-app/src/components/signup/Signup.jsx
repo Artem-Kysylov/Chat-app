@@ -53,50 +53,57 @@ export const Signup = () => {
 
   return (
     <div className='signup__wrapper'>
-    <div className='signup__content'>
-      <h1 className=''>Sign up for free</h1>
-      <form onSubmit={handleSubmit}>
-        <Input
-          style={{width: '100%'}}
-          label='Email address'
-          type='email'
-          placeholder='mail@mail.com'
-          onChange={(e) => setEmail(e.target.value)}
+      <div className="logo">Logo</div>
+      <div className='signup__content'>
+        <h1 className='signup__content-title'>Sign up for free</h1>
+        <form onSubmit={handleSubmit}>
+          <Input
+            style={{width: '100%'}}
+            label='Email address'
+            type='email'
+            placeholder='mail@mail.com'
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            style={{width: '100%'}}
+            label='Password'
+            type='password'
+            placeholder='Enter your password here...'
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            style={{width: '100%'}}
+            text='Sign up'
+          />
+        </form>
+        <p>Already have an account? 
+          <TextLink 
+            to='/'
+            text='Sign in'
+          />
+        </p>
+        <div className="signup__content-hint">
+          <div className="hint__line"></div>
+          <p className='hint__text'>Or</p>
+          <div className="hint__line"></div>
+        </div>
+        <GoogleButton
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            height: '57px', 
+            backgroundColor: 'white', 
+            color: '#121212',
+            fontWeight: 'bold',
+            border: '1px solid #ACACAC', 
+            borderRadius: '10px',
+            boxShadow: 'none',                    
+          }}
+          onClick={HandleGoogleSignIn}
+          label='Sign up with Google'
         />
-        <Input
-          style={{width: '100%'}}
-          label='Password'
-          type='password'
-          placeholder='Enter your password here...'
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button
-          text='Sign up'
-        />
-      </form>
-      <p>Already have an account? 
-        <TextLink 
-          to='/'
-          text='Sign in'
-        />
-      </p>
-      <GoogleButton
-        onClick={HandleGoogleSignIn}
-        label='Sign up with Google'
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '16px',
-          height: '57px', 
-          backgroundColor: '#FFF', 
-          color: '#121212',
-          fontWeight: 'bold',
-          border: '1px solid #ACACAC', 
-          borderRadius: '10px',
-          boxShadow: 'none',                    
-        }}
-      />
-    </div>
+      </div>
   </div>
   )
 }
