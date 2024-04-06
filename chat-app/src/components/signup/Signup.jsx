@@ -1,5 +1,5 @@
 // Import libraries 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserAuth } from '../../context/AuthContext'
 
@@ -7,6 +7,7 @@ import { UserAuth } from '../../context/AuthContext'
 import { Input } from '../ui/input/Input'
 import { Button } from '../ui/button/Button'
 import { TextLink } from '../ui/link/TextLink'
+import { GoogleButton } from 'react-google-button'
 
 export const Signup = () => {
   // States 
@@ -15,7 +16,7 @@ export const Signup = () => {
   const [error, setError] = useState('')
 
   // Context 
-  const { createUser } = UserAuth()
+  const { createUser, googleSignIn, user } = UserAuth()
 
   // Create navigate 
   const navigate = useNavigate()
@@ -32,6 +33,23 @@ export const Signup = () => {
       console.log(error.message)
     }
   }
+
+  // HandleGoogle signin fuction
+  const HandleGoogleSignIn = async () => {
+    try {
+      if(googleSignIn) {
+        await googleSignIn()
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  
+  useEffect(() => {
+    if(user !== null) {
+      navigate('/home')
+    }
+  }, [user])
 
   return (
     <div className='signup__wrapper'>
@@ -62,6 +80,22 @@ export const Signup = () => {
           text='Sign in'
         />
       </p>
+      <GoogleButton
+        onClick={HandleGoogleSignIn}
+        label='Sign up with Google'
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '16px',
+          height: '57px', 
+          backgroundColor: '#FFF', 
+          color: '#121212',
+          fontWeight: 'bold',
+          border: '1px solid #ACACAC', 
+          borderRadius: '10px',
+          boxShadow: 'none',                    
+        }}
+      />
     </div>
   </div>
   )

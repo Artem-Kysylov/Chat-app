@@ -7,7 +7,7 @@ import { UserAuth } from '../../context/AuthContext'
 import { TextLink } from '../ui/link/TextLink'
 
 export const Navbar = () => {
-  const { logout } = UserAuth()
+  const { logout, user } = UserAuth()
   const navigate = useNavigate()
 
   const handleLogout = async () => {
@@ -21,10 +21,11 @@ export const Navbar = () => {
   }
   return (
     <div>
-        <TextLink
-            onClick={handleLogout}
-            text='Logout'
-        />
+      <p>Welcome {user?.displayName}</p>
+      <TextLink
+          onClick={handleLogout}
+          text='Logout'
+      />
     </div>
   )
 }
