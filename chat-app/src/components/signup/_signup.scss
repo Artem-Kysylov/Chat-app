@@ -20,6 +20,7 @@
         flex-direction: column;
         gap: 20px;
         align-items: center;
+        width: 100%;
         padding: 30px;
         border-radius: 20px;
         background: white;
@@ -35,6 +36,7 @@
             flex-direction: column;
             gap: 20px;
             align-items: flex-start;
+            width: 100%;
         }
 
         .signup__content-hint {

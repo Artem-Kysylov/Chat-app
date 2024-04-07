@@ -21,11 +21,15 @@ export const Navbar = () => {
   }
   return (
     <div>
-      <p>Welcome {user?.displayName}</p>
-      <TextLink
-          onClick={handleLogout}
-          text='Logout'
-      />
+      <div className="logo">Logo</div>
+      <div className="navbar__user">
+        <img className='navbar__img' src="https://images.pexels.com/photos/1121796/pexels-photo-1121796.jpeg" alt="/" />      
+        <p>Welcome {user?.displayName}</p>
+        <TextLink
+            onClick={handleLogout}
+            text='Logout'
+        />
+      </div>
     </div>
   )
 }

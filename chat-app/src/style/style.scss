@@ -5,8 +5,16 @@
 // Components
 @import '../components/signup/signup';
 @import '../components/signin/signin';
+@import '../components/navbar/navbar';
+@import '../components/chats/chats';
+@import '../components/sidebar/sidebar';
+@import '../components/chat/chat';
+@import '../components/messages/messages';
+@import '../components/message/message';
+@import '../components/chat-input/chatinput';
 
 // Components/UI
 @import '../components/ui/button/button';
 @import '../components/ui/link/textlink';
 @import '../components/ui/input/input';
+@import '../components/ui/search/search';
