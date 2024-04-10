@@ -3,6 +3,6 @@ import React from 'react'
 
 export const Button = (props) => {
   return (
-    <button>{props.text}</button>
+    <button className='button' style={props.style}>{props.text}</button>
   )
 }

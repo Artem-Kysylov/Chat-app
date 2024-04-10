@@ -1,20 +1,25 @@
 @import './reset';
-@import './global';
 @import './vars';
+@import './global';
 
 // Components
 @import '../components/signup/signup';
 @import '../components/signin/signin';
+@import '../routes/home/home';
 @import '../components/navbar/navbar';
 @import '../components/chats/chats';
 @import '../components/sidebar/sidebar';
 @import '../components/chat/chat';
 @import '../components/messages/messages';
 @import '../components/message/message';
-@import '../components/chat-input/chatinput';
+@import '../components//bottom/bottom';
+@import '../components/user-chat/userchat';
+@import '../components/chat-top/chattop';
 
 // Components/UI
 @import '../components/ui/button/button';
 @import '../components/ui/link/textlink';
 @import '../components/ui/input/input';
 @import '../components/ui/search/search';
+@import '../components/ui/chat-input/chatinput';
+@import '../components/ui/chat-button/chatbutton';

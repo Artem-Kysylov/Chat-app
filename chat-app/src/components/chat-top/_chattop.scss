@@ -1,0 +1,11 @@
+// Style 
+.chatTop__wrapper {
+    width: 100%;
+    padding: 20px;
+    border-bottom: 1px solid $light-grey;
+
+    .chatTop__name {
+        font-size: 25px;
+        font-weight: 700;
+    }
+}

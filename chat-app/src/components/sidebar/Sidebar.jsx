@@ -2,14 +2,18 @@
 import React from 'react'
 
 // Import components 
+import { Navbar } from '../navbar/Navbar'
 import { Search } from '../ui/search/Search'
 import { Chats } from '../chats/Chats'
+import { Bottom } from '../bottom/Bottom'
 
 export const Sidebar = () => {
   return (
-    <div>
+    <div className='sidebar__wrapper'>
+      <Navbar/>
       <Search/>
       <Chats/>
+      <Bottom/>
     </div>
   )
 }

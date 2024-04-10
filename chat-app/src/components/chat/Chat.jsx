@@ -2,15 +2,14 @@
 import React from 'react'
 
 // Import components 
+import { ChatTop } from '../chat-top/ChatTop'
 import { Messages } from '../messages/Messages'
-import { ChatInput } from '../chat-input/ChatInput'
+import { ChatInput } from '../ui/chat-input/ChatInput'
 
 export const Chat = () => {
   return (
-    <div className='chat'>
-        <div className="chat__info">
-            <span className='chat__info-username'>Sam</span>
-        </div>
+    <div className='chat__wrapper'>
+        <ChatTop/>
         <Messages/>
         <ChatInput/>
     </div>

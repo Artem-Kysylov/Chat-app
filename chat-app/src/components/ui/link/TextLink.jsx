@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 export const TextLink = (props) => {
   return (
     <span className="text__link">
-      <Link 
+      <Link
+        style={props.style} 
         to={props.to} 
         onClick={props.onClick}
       >         

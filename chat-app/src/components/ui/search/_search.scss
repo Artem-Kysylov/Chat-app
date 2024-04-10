@@ -1,0 +1,22 @@
+// Style 
+.search__wrapper {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 20px;
+    margin: 0 20px 0 20px;
+    border: 1px solid $dark-smooth;
+    border-radius: 10px;
+
+    &:focus {
+        outline: none;
+        border: 1px solid $primary;
+    }
+
+    input {
+        &:placeholder {
+            font-family: 'Inter', sans-serif;
+            color: $light-grey;
+        }
+    }
+}

@@ -8,6 +8,7 @@ import { Input } from '../ui/input/Input'
 import { Button } from '../ui/button/Button' 
 import { TextLink } from '../ui/link/TextLink'
 import { GoogleButton } from 'react-google-button'
+import Logo from '../../assets/logo/logo-light.svg'
 
 
 export const Signin = () => {
@@ -54,7 +55,9 @@ export const Signin = () => {
 
   return (
     <div className='signin__wrapper'>
-      <div className="logo">Logo</div>
+      <div className="logo">
+        <img src={Logo} alt="logo" />
+      </div>
       <div className='signin__content'>
         <h1 className='signin__content-title'>Sign in to your account</h1>
         <form onSubmit={handleSubmit}>

@@ -8,6 +8,7 @@ import { Input } from '../ui/input/Input'
 import { Button } from '../ui/button/Button'
 import { TextLink } from '../ui/link/TextLink'
 import { GoogleButton } from 'react-google-button'
+import Logo from '../../assets/logo/logo-light.svg'
 
 export const Signup = () => {
   // States 
@@ -53,10 +54,18 @@ export const Signup = () => {
 
   return (
     <div className='signup__wrapper'>
-      <div className="logo">Logo</div>
+      <div className="logo">
+        <img src={Logo} alt="logo" />
+      </div>
       <div className='signup__content'>
         <h1 className='signup__content-title'>Sign up for free</h1>
         <form onSubmit={handleSubmit}>
+          <Input
+            style={{width: '100%'}}
+            label='Your name'
+            type='text'
+            placeholder='John Smith'
+          />
           <Input
             style={{width: '100%'}}
             label='Email address'

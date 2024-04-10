@@ -1,7 +1,27 @@
-.navbar__img {
-    background: white;
-    height: 24px;
-    width: 24px;
-    border-radius: 50%;
-    object-fit: cover;
+.navbar__wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+    padding: 0 20px 0 20px;
+
+    .navbar__user {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+
+        .navbar__img {
+            background: white;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    
+        .navbar__greeting {
+            font-weight: 700;
+        }
+    }
 }
+

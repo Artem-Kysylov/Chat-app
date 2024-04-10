@@ -1,0 +1,36 @@
+// Style 
+.user__chat {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    .user__chat-img {
+        background: white;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .user__chat-info {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .user__chat-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .user__chat-message {
+            font-size: 12px;
+        }
+    }
+
+    &:hover {
+        background: $primary-light;
+    }
+}
