@@ -8,7 +8,7 @@ import { Input } from '../ui/input/Input'
 import { Button } from '../ui/button/Button' 
 import { TextLink } from '../ui/link/TextLink'
 import { GoogleButton } from 'react-google-button'
-import Logo from '../../assets/logo/logo-light.svg'
+import Logo from '../../assets/logo/logo.svg'
 
 
 export const Signin = () => {

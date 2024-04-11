@@ -10,7 +10,6 @@ export const Chats = () => {
       <UserChat/>
       <UserChat/>
       <UserChat/>
-      <UserChat/>
     </div>
   )
 }

@@ -1,1 +1,27 @@
 // Style 
+.chatInput__wrapper {
+    padding: 10px 20px 10px 20px;
+    margin: 0 20px 20px 20px;
+    margin-top: auto;
+    border: 1px solid $dark-smooth;
+    border-radius: 10px;
+    width: calc(100% - 42px);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    .chatInput__items {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        flex: 3;
+
+        input {
+            &:placeholder {
+                color: $light-grey;
+            }
+        }
+    }
+}

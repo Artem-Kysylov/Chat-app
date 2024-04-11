@@ -3,7 +3,7 @@ import React from 'react'
 import { UserAuth } from '../../context/AuthContext'
 
 // Import components 
-import Logo from '../../assets/logo/logo-dark.svg'
+import Logo from '../../assets/logo/logo.svg'
 
 export const Navbar = () => {
   const { user } = UserAuth()
