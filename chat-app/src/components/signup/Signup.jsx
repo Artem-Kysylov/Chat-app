@@ -12,6 +12,7 @@ import Logo from '../../assets/logo/logo.svg'
 
 export const Signup = () => {
   // States 
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -65,6 +66,7 @@ export const Signup = () => {
             label='Your name'
             type='text'
             placeholder='John Smith'
+            onChange={(e) => setName(e.target.value)}
           />
           <Input
             style={{width: '100%'}}
