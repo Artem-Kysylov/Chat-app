@@ -1,21 +1,60 @@
+// All imports are here 
 import { createContext, useContext, useState, useEffect } from 'react'
 import { 
-    createUserWithEmailAndPassword, 
+    createUserWithEmailAndPassword,
+    updateProfile, 
     signInWithEmailAndPassword, 
     signOut,
     GoogleAuthProvider,
     signInWithRedirect, 
     onAuthStateChanged 
 } from 'firebase/auth'
-import { auth } from '../firebase'
+import {  
+    ref, 
+    uploadBytesResumable, 
+    getDownloadURL 
+  } from "firebase/storage"
+import { auth, storage } from '../firebase'
+import { doc, setDoc } from "firebase/firestore"
+
 
 const UserContext = createContext()
 
 export const AuthContextProvider = ({children}) => {
     const [user, setUser] = useState({})
+    const [error, setError] = useState(false)
 
-    const createUser = (email, password) => {
-        return createUserWithEmailAndPassword(auth, email, password)
+    const createUser = async (email, password, displayName, file) => {
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+            const storageRef = ref(storage, displayName)
+            const uploadTask = uploadBytesResumable(storageRef, file)
+
+            uploadTask.on( 
+                (error) => {
+                    setError(true)
+                }, 
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then( async (downloadURL) => {
+                        await updateProfile(userCredential.user, { 
+                            displayName: displayName, 
+                            photoURL: downloadURL, 
+                        })
+                        await setDoc(doc(db, 'users', userCredential.user.uid), {
+                            uid: userCredential.user.uid,
+                            displayName,
+                            email,
+                            photoURL: downloadURL,
+                        })
+                        await setDoc(doc(db, 'userChats', userCredential.user.uid, {}))
+                    })
+                }
+            )
+
+        } catch (error) {
+            console.log('Error', error)
+            setError(true)
+        }
     }
 
     const signIn = (email, password) => {

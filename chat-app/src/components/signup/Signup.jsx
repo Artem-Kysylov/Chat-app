@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { UserAuth } from '../../context/AuthContext'
+import { FaImagePortrait } from "react-icons/fa6"
 
 // Import components 
 import { Input } from '../ui/input/Input'
@@ -82,6 +83,20 @@ export const Signup = () => {
             placeholder='Enter your password here...'
             onChange={(e) => setPassword(e.target.value)}
           />
+          <div className="signup__attach-img">        
+            <input type="file" style={{ display: 'none'}} id='file' />
+            <label htmlFor="file">
+              <FaImagePortrait 
+                style={{
+                  height: '34px',
+                  width: '34px',
+                  color: '#3559E0',
+                  cursor: 'pointer'
+                }}
+              />
+            </label>
+            <span className='signup__attach-img-hint'>Attach your photo </span>                     
+            </div>
           <Button
             style={{width: '100%'}}
             text='Sign up'

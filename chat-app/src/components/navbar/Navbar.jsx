@@ -14,7 +14,7 @@ export const Navbar = () => {
         <img src={Logo} alt="logo" />
       </div>
       <div className="navbar__user">
-        <img className='navbar__img' src="https://images.pexels.com/photos/1121796/pexels-photo-1121796.jpeg" alt="/" />      
+        <img className='navbar__img' src={user?.photoURL} alt="/" />      
         <div className='navbar__greeting'>
           <span className='navbar__greeting-title'>Welcome</span>
           <p className='navbar__greeting-name'>{user?.displayName}!</p>           

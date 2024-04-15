@@ -40,6 +40,18 @@
             gap: 20px;
             align-items: flex-start;
             width: 100%;
+
+            .signup__attach-img {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                cursor: pointer;
+
+                .signup__attach-img-hint {
+                    font-size: 14px;
+                }
+            }
         }
 
         .signup__content-hint {
