@@ -13,10 +13,11 @@ import Logo from '../../assets/logo/logo.svg'
 
 export const Signup = () => {
   // States 
-  const [name, setName] = useState('')
+  const [displayName, setDisplayName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const [file, setFile] = useState(null)
 
   // Context 
   const { createUser, googleSignIn, user } = UserAuth()
@@ -24,12 +25,18 @@ export const Signup = () => {
   // Create navigate 
   const navigate = useNavigate()
 
+  // Select file function 
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setFile(selectedFile);
+  }
+
   // Handlesubmit function 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
     try {
-      await createUser(email, password)
+      await createUser(email, password, displayName, file)
       navigate('/home')      
     } catch (error) {
       setError(error.message)
@@ -67,7 +74,7 @@ export const Signup = () => {
             label='Your name'
             type='text'
             placeholder='John Smith'
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setDisplayName(e.target.value)}
           />
           <Input
             style={{width: '100%'}}
@@ -83,20 +90,22 @@ export const Signup = () => {
             placeholder='Enter your password here...'
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div className="signup__attach-img">        
-            <input type="file" style={{ display: 'none'}} id='file' />
-            <label htmlFor="file">
-              <FaImagePortrait 
-                style={{
-                  height: '34px',
-                  width: '34px',
-                  color: '#3559E0',
-                  cursor: 'pointer'
-                }}
-              />
-            </label>
-            <span className='signup__attach-img-hint'>Attach your photo </span>                     
-            </div>
+          <input 
+            type="file" 
+            style={{ display: 'none'}} 
+            id='file' 
+            onChange={handleFileChange}
+          />
+          <label className='signup__attach-img' htmlFor="file">
+            <FaImagePortrait 
+              style={{
+                height: '34px',
+                width: '34px',
+                color: '#3559E0',
+              }}
+            />
+            <span className='signup__attach-img-hint'>Attach your photo </span>  
+          </label>                               
           <Button
             style={{width: '100%'}}
             text='Sign up'

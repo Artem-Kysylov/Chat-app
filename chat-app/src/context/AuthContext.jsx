@@ -14,7 +14,7 @@ import {
     uploadBytesResumable, 
     getDownloadURL 
   } from "firebase/storage"
-import { auth, storage } from '../firebase'
+import { auth, storage, db } from '../firebase'
 import { doc, setDoc } from "firebase/firestore"
 
 
@@ -27,7 +27,8 @@ export const AuthContextProvider = ({children}) => {
     const createUser = async (email, password, displayName, file) => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-            const storageRef = ref(storage, displayName)
+            const fileName = `${Date.now()}_${file.name}`
+            const storageRef = ref(storage, fileName)
             const uploadTask = uploadBytesResumable(storageRef, file)
 
             uploadTask.on( 
@@ -37,7 +38,7 @@ export const AuthContextProvider = ({children}) => {
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then( async (downloadURL) => {
                         await updateProfile(userCredential.user, { 
-                            displayName: displayName, 
+                            displayName, 
                             photoURL: downloadURL, 
                         })
                         await setDoc(doc(db, 'users', userCredential.user.uid), {
@@ -46,11 +47,10 @@ export const AuthContextProvider = ({children}) => {
                             email,
                             photoURL: downloadURL,
                         })
-                        await setDoc(doc(db, 'userChats', userCredential.user.uid, {}))
+                        await setDoc(doc(db, 'userChats', userCredential.user.uid), {})
                     })
                 }
             )
-
         } catch (error) {
             console.log('Error', error)
             setError(true)
