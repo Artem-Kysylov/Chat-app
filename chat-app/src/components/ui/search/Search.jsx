@@ -1,16 +1,28 @@
 // Import libraries 
 import React, { useState } from 'react'
 import { CgSearch } from "react-icons/cg";
-import { collection, query, where, getDocs } from "firebase/firestore"
+import { 
+  collection, 
+  query, 
+  where, 
+  getDocs, 
+  setDoc,
+  getDoc, 
+  doc, 
+  updateDoc, 
+  serverTimestamp 
+} from "firebase/firestore"
 import { db } from '../../../firebase'
 import { UserAuth } from '../../../context/AuthContext'
 
 
 export const Search = () => {
+  // States 
   const [username, setUsername] = useState('')
   const [chatUser, setChatUser] = useState(null)
   const [error, setError] = useState(false)
 
+  // Context
   const { user } = UserAuth()
 
   // HandleSearch function 
@@ -34,11 +46,42 @@ export const Search = () => {
     e.code === 'Enter' && handleSearch()
   }
 
+  // Handleselect function 
   const handleSelect = async () => {
     // Check chats in firestore exists, if not create new one 
-    const combinedId = user.uid
-    const res = await getDocs(db, 'chats')
-    // Create user chats 
+    const combinedId = 
+    user.uid > chatUser.uid 
+    ? user.uid + chatUser.uid 
+    : chatUser.uid + user.uid
+    try {
+      const res = await getDoc( doc(db, 'chats', combinedId))
+      if(!res.exists()) {
+        // Create chat in chats collection
+        await setDoc(doc(db, 'chats', combinedId)), { messages: []} 
+
+        // create user chats 
+        await updateDoc(doc(db, 'userChats', user.uid), {
+          [combinedId + '.userInfo'] : {
+            uid: chatUser.uid,
+            displayName: chatUser.displayName,
+            photoURL: chatUser.photoURL
+          },
+          [combinedId + '.date'] : serverTimestamp()
+        }) 
+        await updateDoc(doc(db, 'userChats', chatUser.uid), {
+          [combinedId + '.userInfo'] : {
+            uid: user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL
+          },
+          [combinedId + '.date'] : serverTimestamp()
+        }) 
+      }      
+    } catch (error) {
+      setError(true)
+    }
+    setUsername(null)
+    setUsername('')
   }
 
   return (
@@ -51,18 +94,20 @@ export const Search = () => {
             type="text" 
             placeholder='Find a user...'
             onKeyDown={handleKey}
-            onChange={(e) => setUsername(e.target.value)} 
+            onChange={(e) => setUsername(e.target.value)}
+            value={username} 
           />
       </div>
-      {error && <span>Sorry, user not found..</span>}
-      {chatUser && 
-      <div className="user__chat" onClick={handleSelect}>
-        <img className='user__chat-img' src={chatUser?.photoURL} alt="/" />
-        <div className="user__chat-info">
-            <span className='user__chat-name'>{chatUser?.displayName}</span>
-        </div>
-      </div> 
-      }      
+      <>
+        {error && <span className='search__error-hint'>Sorry, user not found..</span>}
+        {chatUser && <div className="search__user-chat" onClick={handleSelect}>
+            <img className='search__user-chat-img' src={chatUser.photoURL} alt="/" />
+            <div className="search__user-chat-info">
+                <span className='search__user-chat-name'>{chatUser.displayName}</span>
+            </div>
+          </div> 
+        }            
+      </>
     </div>
   )
 }
