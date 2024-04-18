@@ -46,46 +46,47 @@ export const Search = () => {
 
   // HandleKey function 
   const handleKey = (e) => {
-    e.code === 'Enter' && handleSearch()
+    if(e.code === 'Enter') {
+      handleSearch()
+    }
   }
 
-  // Handleselect function 
   const handleSelect = async () => {
-    // Check chats in firestore exists, if not create new one 
-    const combinedId = 
-    user.uid > chatUser.uid 
-    ? user.uid + chatUser.uid 
-    : chatUser.uid + user.uid
+    // Check if chat exists in Firestore, if not, create a new one
+    const combinedId = user.uid > chatUser.uid ? user.uid + chatUser.uid : chatUser.uid + user.uid;
     try {
-      const res = await getDoc( doc(db, 'chats', combinedId))
-      if(!res.exists()) {
-        // Create chat in chats collection
-        await setDoc(doc(db, 'chats', combinedId)), { messages: []} 
+      const chatDoc = doc(db, 'chats', combinedId);
+      const chatDocSnapshot = await getDoc(chatDoc);
+      
+      if (!chatDocSnapshot.exists()) {
+        // Create a new chat in the 'chats' collection
+        await setDoc(chatDoc, { messages: [] });
 
-        // create user chats 
-        await updateDoc(doc(db, 'userChats', user.uid), {
-          [combinedId + '.userInfo'] : {
+        // Update user chats 
+        const userChatData = {
+          userInfo: {
             uid: chatUser.uid,
             displayName: chatUser.displayName,
             photoURL: chatUser.photoURL
           },
-          [combinedId + '.date'] : serverTimestamp()
-        }) 
-        await updateDoc(doc(db, 'userChats', chatUser.uid), {
-          [combinedId + '.userInfo'] : {
-            uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL
-          },
-          [combinedId + '.date'] : serverTimestamp()
-        }) 
+          date: serverTimestamp()
+        };
+        
+        await Promise.all([
+          updateDoc(doc(db, 'userChats', user.uid), { [combinedId]: userChatData }),
+          updateDoc(doc(db, 'userChats', chatUser.uid), { [combinedId]: userChatData })
+        ])        
+        // Reset chatUser to null after successful chat creation
+        // setChatUser(null)
       }
-      setChatUser(null)      
     } catch (error) {
+      // Set error only if the chat creation fails
       setError(true)
-    }
+    }    
+    // Reset the username field
     setUsername('')
-  }
+    setChatUser(null)
+}
 
   return (
     <div className="search">
