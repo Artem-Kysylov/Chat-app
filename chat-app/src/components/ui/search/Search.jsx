@@ -34,8 +34,11 @@ export const Search = () => {
     try {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
+        const userData = doc.data()
+        setChatUser(userData)
+        console.log(doc.id, " => ", doc.data());
       })
+      setError(false)
     } catch (error) {
       setError(true)
     }
@@ -76,11 +79,11 @@ export const Search = () => {
           },
           [combinedId + '.date'] : serverTimestamp()
         }) 
-      }      
+      }
+      setChatUser(null)      
     } catch (error) {
       setError(true)
     }
-    setUsername(null)
     setUsername('')
   }
 

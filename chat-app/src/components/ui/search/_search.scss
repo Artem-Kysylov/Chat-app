@@ -1,5 +1,7 @@
 // Style 
 .search {
+    width: 100%;
+
     .search__wrapper {
         display: flex;
         align-items: center;
@@ -23,7 +25,41 @@
         }
     }
 
+    .search__user-chat {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        width: 100%;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    
+        .search__user-chat-img {
+            background: white;
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    
+        .search__user-chat-info {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+    
+            .search__user-chat-name {
+                font-size: 14px;
+                font-weight: 700;
+            }
+        }
+    
+        &:hover {
+            background: $primary-light;
+        }
+    }
+
     .search__error-hint {
+        padding-left: 20px;
         font-size: 14px;
         color: $light-grey;
     }
