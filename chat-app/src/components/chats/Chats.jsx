@@ -28,9 +28,14 @@ export const Chats = () => {
 
   return (
     <div className='chats'>
-      <UserChat/>
-      <UserChat/>
-      <UserChat/>
+      {chats && Object.entries(chats)?.map((chat) => (
+        <UserChat
+          key={chat[0]}
+          photoUrl={chat[1].userInfo.photoUrl}
+          displayName={chat[1].userInfo.displayName}
+          lastMessage={chat[1].userInfo.lastMessage?.text}
+        />
+      ))}
     </div>
   )
 }
