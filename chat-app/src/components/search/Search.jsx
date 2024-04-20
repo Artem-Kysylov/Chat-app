@@ -12,8 +12,10 @@ import {
   updateDoc, 
   serverTimestamp 
 } from "firebase/firestore"
-import { db } from '../../../firebase'
-import { UserAuth } from '../../../context/AuthContext'
+import { db } from '../../firebase'
+
+// Import context 
+import { UserAuth } from '../../context/AuthContext'
 
 
 export const Search = () => {
@@ -53,39 +55,43 @@ export const Search = () => {
 
   const handleSelect = async () => {
     // Check if chat exists in Firestore, if not, create a new one
-    const combinedId = user.uid > chatUser.uid ? user.uid + chatUser.uid : chatUser.uid + user.uid;
+    const combinedId = 
+    user.uid > chatUser.uid 
+    ? user.uid + chatUser.uid 
+    : chatUser.uid + user.uid;
     try {
-      const chatDoc = doc(db, 'chats', combinedId);
-      const chatDocSnapshot = await getDoc(chatDoc);
+      const res = await getDoc(doc(db, "chats", combinedId))
       
-      if (!chatDocSnapshot.exists()) {
+      if (!res.exists()) {
         // Create a new chat in the 'chats' collection
-        await setDoc(chatDoc, { messages: [] });
+        await setDoc(doc(db, 'chats', combinedId), { messages: [] })
 
-        // Update user chats 
-        const userChatData = {
-          userInfo: {
+        // Create user chats 
+        await updateDoc(doc(db, 'userChats', user.uid), {
+          [combinedId + '.userInfo']: {
             uid: chatUser.uid,
             displayName: chatUser.displayName,
-            photoURL: chatUser.photoURL
+            photoURL: chatUser.photoURL,
           },
-          date: serverTimestamp()
-        };
-        
-        await Promise.all([
-          updateDoc(doc(db, 'userChats', user.uid), { [combinedId]: userChatData }),
-          updateDoc(doc(db, 'userChats', chatUser.uid), { [combinedId]: userChatData })
-        ])        
-        // Reset chatUser to null after successful chat creation
-        // setChatUser(null)
+          [combinedId + '.date']: serverTimestamp(), 
+        })
+
+        await updateDoc(doc(db, 'userChats', chatUser.uid), {
+          [combinedId + '.userInfo']: {
+            uid: user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+          },
+          [combinedId + '.date']: serverTimestamp(), 
+        })
       }
     } catch (error) {
       // Set error only if the chat creation fails
       setError(true)
     }    
-    // Reset the username field
-    setUsername('')
+    // Reset the username field and set user to null
     setChatUser(null)
+    setUsername('')
 }
 
   return (

@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 
 // Import context 
 import { AuthContextProvider } from './context/AuthContext'
+import { ChatContextProvider } from './context/ChatContext'
 
 // Import components 
 import { Signin } from './components/signin/Signin'
@@ -16,17 +17,19 @@ function App() {
   return (
     <>
     <AuthContextProvider>
-      <Routes>
-          <Route path='/' element={<Signin/>}/>
-          <Route path='/signup' element={<Signup/>}/>
-          <Route path='/home' 
-            element={
-              <ProtectedRoute>
-                <Home/>
-              </ProtectedRoute>          
-            }
-          />
-      </Routes>
+      <ChatContextProvider>
+        <Routes>
+            <Route path='/' element={<Signin/>}/>
+            <Route path='/signup' element={<Signup/>}/>
+            <Route path='/home' 
+              element={
+                <ProtectedRoute>
+                  <Home/>
+                </ProtectedRoute>          
+              }
+            />
+        </Routes>
+      </ChatContextProvider>
     </AuthContextProvider>
     </>
   )

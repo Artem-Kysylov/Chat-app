@@ -1,11 +1,22 @@
 // Import libraries 
-import React from 'react'
+import React, { useState } from 'react'
 import { GoPaperclip } from "react-icons/go"
+
+// Import context 
+import { UserAuth } from '../../../context/AuthContext'
+import { ChatUser } from '../../../context/ChatContext'
 
 // Import components 
 import { ChatButton } from '../../ui/chat-button/ChatButton'
 
 export const ChatInput = () => {
+  // States
+  const [text, setText] = useState('')
+  const [img, setImg] = useState(null) 
+    // Context 
+  const { user } = UserAuth()
+  const { data } = ChatUser()
+
   return (
     <div className='chatInput__wrapper'>
       <div className="chatInput__items">

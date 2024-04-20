@@ -3,7 +3,7 @@ import React from 'react'
 
 // Import components 
 import { Navbar } from '../navbar/Navbar'
-import { Search } from '../ui/search/Search'
+import { Search } from '../search/Search'
 import { Chats } from '../chats/Chats'
 import { Bottom } from '../bottom/Bottom'
 

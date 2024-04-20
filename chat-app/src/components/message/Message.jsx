@@ -1,7 +1,15 @@
 // Import libraries 
 import React from 'react'
 
-export const Message = () => {
+// Import context 
+import { UserAuth } from '../../context/AuthContext'
+import { ChatUser } from '../../context/ChatContext'
+
+export const Message = ({ message, id }) => {
+  // Context 
+  const { user } = UserAuth()
+  const { data } = ChatUser()
+
   return (
     <div className='message__wrapper owner'>
       <div className="message__info ">
