@@ -1,24 +1,44 @@
 // Import libraries 
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 
 // Import context 
 import { UserAuth } from '../../context/AuthContext'
 import { ChatUser } from '../../context/ChatContext'
 
-export const Message = ({ message, id }) => {
+export const Message = ({ message }) => {
   // Context 
   const { user } = UserAuth()
   const { data } = ChatUser()
 
+  const ref = useRef()
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({behavior: 'smooth'})
+  }, [message])
+
   return (
-    <div className='message__wrapper owner'>
+    <div ref={ref}
+    className={`message__wrapper ${message.senderId === user.uid && 'owner'}`}>
       <div className="message__info ">
-          <img className='message__info-img' src="https://images.pexels.com/photos/1121796/pexels-photo-1121796.jpeg" alt="/" />
+          <img 
+            className='message__info-img' 
+            src={message.senderId === user.uid 
+              ? user.photoURL 
+              : data.user.photoURL
+            } 
+            alt="/" 
+          />
           <span className='message__date'>Just now</span>
       </div>
       <div className="message__info-content">
-          <p className="message__info-content-text">Hello</p>
-          {/* <img className='message__info-content-img' src="https://images.pexels.com/photos/15286/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="/" /> */}
+          <p className="message__info-content-text">{message.text}</p>
+          {message.img && 
+            <img 
+              className='message__info-content-img' 
+              src={message.img}    
+              alt="/" 
+            />
+          }
       </div>
     </div>
   )

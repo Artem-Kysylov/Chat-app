@@ -34,15 +34,16 @@ export const Chats = () => {
     dispatch({type:'CHANGE_USER', payload: user})
   }
 
+
   return (
     <div className='chats'>
-      {chats && Object.entries(chats)?.map((chat) => (
+      {chats && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) => (
         <UserChat
           onClick={() => handleSelect(chat[1].userInfo)}
           key={chat[0]}
           photoUrl={chat[1].userInfo.photoUrl}
           displayName={chat[1].userInfo.displayName}
-          lastMessage={chat[1].userInfo.lastMessage?.text}
+          lastMessage={chat[1].lastMessage?.text}
         />
       ))}
     </div>
