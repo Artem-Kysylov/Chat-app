@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { UserAuth } from '../../context/AuthContext'
 import { FaImagePortrait } from "react-icons/fa6"
 
+// Import hooks 
+import { usePasswordToggle } from '../../hooks/usePasswordToggle'
+
 // Import components 
 import { Input } from '../ui/input/Input'
 import { Button } from '../ui/button/Button'
@@ -18,6 +21,9 @@ export const Signup = () => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [file, setFile] = useState(null)
+
+  //  Custom hook 
+  const [PasswordInputType, togglePasswordVisibility, ToggleIcon] = usePasswordToggle();
 
   // Context 
   const { createUser, googleSignIn, user } = UserAuth()
@@ -86,9 +92,11 @@ export const Signup = () => {
           <Input
             style={{width: '100%'}}
             label='Password'
-            type='password'
+            type={PasswordInputType}
             placeholder='Enter your password here...'
             onChange={(e) => setPassword(e.target.value)}
+            toggleIcon={ToggleIcon}
+            onToggle={togglePasswordVisibility}
           />
           <input 
             type="file" 

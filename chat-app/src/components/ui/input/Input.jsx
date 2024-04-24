@@ -12,6 +12,21 @@ export const Input = (props) => {
         type={props.type} 
         placeholder={props.placeholder}
       />
+      {props.toggleIcon && (
+        <div
+          className='toggle__icon'
+          onClick={props.onToggle}
+          style={{
+            position: 'absolute',
+            right: '20px',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            cursor: 'pointer',
+          }}  
+        >
+          {props.toggleIcon}    
+        </div>
+      )}
     </div>
   )
 }
