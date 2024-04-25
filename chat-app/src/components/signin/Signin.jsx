@@ -5,6 +5,7 @@ import { UserAuth } from '../../context/AuthContext'
 
 // Import components
 import { Input } from '../ui/input/Input'
+import { InputPassword } from '../ui/input-password/InputPassword'
 import { Button } from '../ui/button/Button' 
 import { TextLink } from '../ui/link/TextLink'
 import { GoogleButton } from 'react-google-button'
@@ -68,10 +69,9 @@ export const Signin = () => {
             placeholder='mail@mail.com'
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Input
+          <InputPassword
             style={{width: '100%'}}
-            label='Password'
-            type='password'
+            value={password}
             placeholder='Enter your password here...'
             onChange={(e) => setPassword(e.target.value)}
           />

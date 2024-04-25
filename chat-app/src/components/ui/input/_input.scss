@@ -8,17 +8,19 @@
         color: $black;
     }
 
-    input {
+    .input {
+        color: $black;
         padding: 20px;
         border: 1px solid $dark-smooth;
         border-radius: 10px;
+        transition: border-color 0.3s;
 
         &:placeholder {
             color: $light-grey;
         }
 
         &:focus {
-            border: 1px solid $primary;
+            border-color: $primary;
         }
     }
 }

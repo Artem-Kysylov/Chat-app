@@ -4,11 +4,9 @@ import { useNavigate } from 'react-router-dom'
 import { UserAuth } from '../../context/AuthContext'
 import { FaImagePortrait } from "react-icons/fa6"
 
-// Import hooks 
-import { usePasswordToggle } from '../../hooks/usePasswordToggle'
-
 // Import components 
 import { Input } from '../ui/input/Input'
+import { InputPassword } from '../ui/input-password/InputPassword'
 import { Button } from '../ui/button/Button'
 import { TextLink } from '../ui/link/TextLink'
 import { GoogleButton } from 'react-google-button'
@@ -21,9 +19,6 @@ export const Signup = () => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [file, setFile] = useState(null)
-
-  //  Custom hook 
-  const [PasswordInputType, togglePasswordVisibility, ToggleIcon] = usePasswordToggle();
 
   // Context 
   const { createUser, googleSignIn, user } = UserAuth()
@@ -79,6 +74,7 @@ export const Signup = () => {
             style={{width: '100%'}}
             label='Your name'
             type='text'
+            value={displayName}
             placeholder='John Smith'
             onChange={(e) => setDisplayName(e.target.value)}
           />
@@ -86,17 +82,15 @@ export const Signup = () => {
             style={{width: '100%'}}
             label='Email address'
             type='email'
+            value={email}
             placeholder='mail@mail.com'
             onChange={(e) => setEmail(e.target.value)}
           />
-          <Input
+          <InputPassword
             style={{width: '100%'}}
-            label='Password'
-            type={PasswordInputType}
+            value={password}
             placeholder='Enter your password here...'
             onChange={(e) => setPassword(e.target.value)}
-            toggleIcon={ToggleIcon}
-            onToggle={togglePasswordVisibility}
           />
           <input 
             type="file" 

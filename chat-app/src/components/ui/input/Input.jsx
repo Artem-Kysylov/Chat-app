@@ -8,25 +8,12 @@ export const Input = (props) => {
     >
       <label>{props.label}</label>
       <input
+        className='input'
         onChange={props.onChange} 
-        type={props.type} 
+        type={props.type}
+        value={props.value} 
         placeholder={props.placeholder}
-      />
-      {props.toggleIcon && (
-        <div
-          className='toggle__icon'
-          onClick={props.onToggle}
-          style={{
-            position: 'absolute',
-            right: '20px',
-            top: '50%',
-            transform: 'translateY(-50%)',
-            cursor: 'pointer',
-          }}  
-        >
-          {props.toggleIcon}    
-        </div>
-      )}
+      /> 
     </div>
   )
 }
