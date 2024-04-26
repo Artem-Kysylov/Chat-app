@@ -6,7 +6,7 @@ import {
     signInWithEmailAndPassword, 
     signOut,
     GoogleAuthProvider,
-    signInWithRedirect, 
+    signInWithPopup, 
     onAuthStateChanged 
 } from 'firebase/auth'
 import {  
@@ -66,14 +66,31 @@ export const AuthContextProvider = ({children}) => {
         return signOut(auth)
     }
 
-    const googleSignIn = () => {
+    const googleSignIn = async () => {
         const provider = new GoogleAuthProvider()
-        signInWithRedirect(auth, provider)
+        try {
+            const result = await signInWithPopup(auth, provider)
+            const credential = GoogleAuthProvider.credentialFromResult(result)
+            const token = credential.accessToken
+            const user = result.user
+
+            await setDoc(doc(db, 'users', user.uid), {
+                uid: user.uid,
+                displayName: user.displayName,
+                email: user.email,
+                photoURL: user.photoURL
+            })
+
+        } catch(error) {
+            setError(true)
+            console.error('Google Sign-In Error:', error)
+        }
+        
     }
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser)
+            setUser(auth.currentUser)
             console.log('user', currentUser)
         })
         return () => {

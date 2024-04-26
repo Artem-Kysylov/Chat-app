@@ -5,6 +5,7 @@ export const UserChat = (props) => {
   return (
     <div className="user__chat">
         <img className='user__chat-img' src={props.photoUrl} alt="/" />
+        {/* {props.photoUrl ? <img className='user__chat-img' src={props.photoUrl} alt="/" /> : <div className='user__chat-img-placeholder'></div>} */}
         <div className="user__chat-info">
             <span className='user__chat-name'>{props.displayName}</span>
             <p className="user__chat-message">{props.lastMessage?.text}</p> 

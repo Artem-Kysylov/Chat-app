@@ -41,8 +41,8 @@ export const Chats = () => {
         <UserChat
           onClick={() => handleSelect(chat[1].userInfo)}
           key={chat[0]}
-          photoUrl={chat[1].userInfo.photoUrl}
-          displayName={chat[1].userInfo.displayName}
+          photoUrl={chat[1].userInfo.photoUrl ? chat[1].userInfo.photoUrl : ""}
+          displayName={chat[1].userInfo.displayName ? chat[1].userInfo.displayName : ""}
           lastMessage={chat[1].lastMessage?.text}
         />
       ))}
