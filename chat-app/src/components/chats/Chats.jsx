@@ -15,35 +15,43 @@ export const Chats = () => {
   const [chats, setChats] = useState([])
 
   // Context
-  const { user } = UserAuth()
+  const { currentUser } = UserAuth()
   const { dispatch } = ChatUser()
 
   useEffect(() => {
     const getChats = () => {
-      const unsub = onSnapshot(doc(db, "userChats", user.uid), (doc) => {
+      const unsub = onSnapshot(doc(db, "userChats", currentUser.uid), (doc) => {
         setChats(doc.data())
       })
       return () => {
         unsub()
       }
     }
-    user.uid && getChats()
-  },[user.uid])
+    currentUser.uid && getChats()
+  },[currentUser.uid])
 
   const handleSelect = (user) => {
-    dispatch({type:'CHANGE_USER', payload: user})
+    dispatch({ type:'CHANGE_USER', payload: user })
+    const userChats = user.chats || []
+    userChats.forEach(chat => {
+      if (!chats.some(existingChat => existingChat.chatId === chat.chatId)) {
+        setChats(prevChats => [...prevChats, chat]);
+      }
+    })
   }
+
+  console.log(chats)
 
 
   return (
     <div className='chats'>
-      {chats && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) => (
+      {Array.isArray(chats) && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) => (
         <UserChat
-          onClick={() => handleSelect(chat[1].userInfo)}
+          onClick={() => handleSelect(chat)}
           key={chat[0]}
-          photoUrl={chat[1].userInfo.photoUrl ? chat[1].userInfo.photoUrl : ""}
-          displayName={chat[1].userInfo.displayName ? chat[1].userInfo.displayName : ""}
-          lastMessage={chat[1].lastMessage?.text}
+          photoUrl={chat.userInfo.photoUrl ? chat.userInfo.photoUrl : ""}
+          displayName={chat.userInfo.displayName ? chat.userInfo.displayName : ""}
+          lastMessage={chat.lastMessage?.text}
         />
       ))}
     </div>

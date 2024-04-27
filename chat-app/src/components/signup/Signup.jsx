@@ -21,7 +21,7 @@ export const Signup = () => {
   const [file, setFile] = useState(null)
 
   // Context 
-  const { createUser, googleSignIn, user } = UserAuth()
+  const { createUser, googleSignIn, currentUser } = UserAuth()
 
   // Create navigate 
   const navigate = useNavigate()
@@ -57,10 +57,10 @@ export const Signup = () => {
   }
   
   useEffect(() => {
-    if(user !== null) {
+    if(currentUser !== null) {
       navigate('/home')
     }
-  }, [user])
+  }, [currentUser])
 
   return (
     <div className='signup__wrapper'>

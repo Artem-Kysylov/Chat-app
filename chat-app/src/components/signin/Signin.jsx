@@ -19,7 +19,7 @@ export const Signin = () => {
   const [error, setError] = useState('')
 
   // Context 
-  const { signIn, googleSignIn, user } = UserAuth()
+  const { signIn, googleSignIn, currentUser } = UserAuth()
 
   // Create navigate 
   const navigate = useNavigate()
@@ -49,10 +49,10 @@ export const Signin = () => {
   }
 
   useEffect(() => {
-    if(user !== null) {
+    if(currentUser !== null) {
       navigate('/home')
     }
-  }, [user])
+  }, [currentUser])
 
   return (
     <div className='signin__wrapper'>

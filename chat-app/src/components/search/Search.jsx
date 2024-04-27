@@ -21,11 +21,11 @@ import { UserAuth } from '../../context/AuthContext'
 export const Search = () => {
   // States 
   const [username, setUsername] = useState('')
-  const [chatUser, setChatUser] = useState(null)
+  const [user, setUser] = useState(null)
   const [error, setError] = useState(false)
 
   // Context
-  const { user } = UserAuth()
+  const { currentUser } = UserAuth()
 
   // HandleSearch function 
   const handleSearch = async () => {
@@ -37,7 +37,7 @@ export const Search = () => {
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
         const userData = doc.data()
-        setChatUser(userData)
+        setUser(userData)
         console.log(doc.id, " => ", doc.data());
       })
       setError(false)
@@ -56,9 +56,9 @@ export const Search = () => {
   const handleSelect = async () => {
     // Check if chat exists in Firestore, if not, create a new one
     const combinedId = 
-    user.uid > chatUser.uid 
-    ? user.uid + chatUser.uid 
-    : chatUser.uid + user.uid;
+    currentUser.uid > user.uid 
+    ? currentUser.uid + user.uid 
+    : user.uid + currentUser.uid;
     try {
       const res = await getDoc(doc(db, "chats", combinedId))
       
@@ -67,20 +67,20 @@ export const Search = () => {
         await setDoc(doc(db, 'chats', combinedId), { messages: [] })
 
         // Create user chats 
-        await updateDoc(doc(db, 'userChats', user.uid), {
-          [combinedId + '.userInfo']: {
-            uid: chatUser.uid,
-            displayName: chatUser.displayName,
-            photoURL: chatUser.photoURL,
-          },
-          [combinedId + '.date']: serverTimestamp(), 
-        })
-
-        await updateDoc(doc(db, 'userChats', chatUser.uid), {
+        await updateDoc(doc(db, 'userChats', currentUser.uid), {
           [combinedId + '.userInfo']: {
             uid: user.uid,
             displayName: user.displayName,
             photoURL: user.photoURL,
+          },
+          [combinedId + '.date']: serverTimestamp(), 
+        })
+
+        await updateDoc(doc(db, 'userChats', user.uid), {
+          [combinedId + '.userInfo']: {
+            uid: currentUser.uid,
+            displayName: currentUser.displayName,
+            photoURL: currentUser.photoURL,
           },
           [combinedId + '.date']: serverTimestamp(), 
         })
@@ -90,7 +90,7 @@ export const Search = () => {
       setError(true)
     }    
     // Reset the username field and set user to null
-    setChatUser(null)
+    setUser(null)
     setUsername('')
 }
 
@@ -110,10 +110,10 @@ export const Search = () => {
       </div>
       <>
         {error && <span className='search__error-hint'>Sorry, user not found..</span>}
-        {chatUser && <div className="search__user-chat" onClick={handleSelect}>
-            <img className='search__user-chat-img' src={chatUser.photoURL} alt="/" />
+        {user && <div className="search__user-chat" onClick={handleSelect}>
+            <img className='search__user-chat-img' src={user.photoURL} alt="/" />
             <div className="search__user-chat-info">
-                <span className='search__user-chat-name'>{chatUser.displayName}</span>
+                <span className='search__user-chat-name'>{user.displayName}</span>
             </div>
           </div> 
         }            

@@ -1,21 +1,17 @@
 // Imports 
-import { createContext, useContext, useReducer, useEffect } from "react"
+import { createContext, useContext, useReducer } from "react"
 import { UserAuth } from './AuthContext'
 
 export const ChatContext = createContext()
 
 export const ChatContextProvider = ({ children }) => {
     // Context
-    const { user } = UserAuth()
+    const { currentUser } = UserAuth()
 
     const INITIAL_STATE = {
         chatId: 'null',
         user: {} 
     }
-
-    useEffect(() => {
-        console.log("User data:", user);
-    }, [user]);
 
     // Create chatReducer 
     const chatReducer = (state, action) => {
@@ -23,9 +19,10 @@ export const ChatContextProvider = ({ children }) => {
             case 'CHANGE_USER':
                 return {
                     user: action.payload,
-                    chatId: user.uid > action.payload.uid
-                    ? user.uid + action.payload.uid
-                    : action.payload.uid + user.uid
+                    chatId: 
+                        currentUser.uid > action.payload.uid
+                        ? currentUser.uid + action.payload.uid
+                        : action.payload.uid + currentUser.uid
                 }    
             default:
                 return state

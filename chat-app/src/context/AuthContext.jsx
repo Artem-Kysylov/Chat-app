@@ -21,7 +21,7 @@ import { doc, setDoc } from "firebase/firestore"
 const UserContext = createContext()
 
 export const AuthContextProvider = ({children}) => {
-    const [user, setUser] = useState({})
+    const [currentUser, setCurrentUser] = useState({})
     const [error, setError] = useState(false)
 
     const createUser = async (email, password, displayName, file) => {
@@ -70,17 +70,17 @@ export const AuthContextProvider = ({children}) => {
         const provider = new GoogleAuthProvider()
         try {
             const result = await signInWithPopup(auth, provider)
-            const credential = GoogleAuthProvider.credentialFromResult(result)
-            const token = credential.accessToken
             const user = result.user
 
-            await setDoc(doc(db, 'users', user.uid), {
-                uid: user.uid,
-                displayName: user.displayName,
-                email: user.email,
-                photoURL: user.photoURL
-            })
-
+            if(user) {
+                await setDoc(doc(db, 'users', user.uid), {
+                    uid: user.uid,
+                    displayName: user.displayName,
+                    email: user.email,
+                    photoURL: user.photoURL
+                })
+            }
+            
         } catch(error) {
             setError(true)
             console.error('Google Sign-In Error:', error)
@@ -89,9 +89,9 @@ export const AuthContextProvider = ({children}) => {
     }
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(auth.currentUser)
-            console.log('user', currentUser)
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user)
+            console.log(user)
         })
         return () => {
             unsubscribe()
@@ -99,7 +99,7 @@ export const AuthContextProvider = ({children}) => {
     }, [])
 
     return (
-        <UserContext.Provider value = {{ createUser, logout, signIn, googleSignIn, user }}>
+        <UserContext.Provider value = {{ createUser, logout, signIn, googleSignIn, currentUser }}>
             {children}
         </UserContext.Provider>
     )

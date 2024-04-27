@@ -7,7 +7,7 @@ import { ChatUser } from '../../context/ChatContext'
 
 export const Message = ({ message }) => {
   // Context 
-  const { user } = UserAuth()
+  const { currentUser } = UserAuth()
   const { data } = ChatUser()
 
   const ref = useRef()
@@ -22,8 +22,8 @@ export const Message = ({ message }) => {
       <div className="message__info ">
           <img 
             className='message__info-img' 
-            src={message.senderId === user.uid 
-              ? user.photoURL 
+            src={message.senderId === currentUser.uid 
+              ? currentUser.photoURL 
               : data.user.photoURL
             } 
             alt="/" 
