@@ -27,6 +27,8 @@ export const AuthContextProvider = ({children}) => {
     const createUser = async (email, password, displayName, file) => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+            console.log(userCredential.user)
+            setCurrentUser(userCredential.user)
             const fileName = `${Date.now()}_${file.name}`
             const storageRef = ref(storage, fileName)
             const uploadTask = uploadBytesResumable(storageRef, file)
@@ -58,8 +60,15 @@ export const AuthContextProvider = ({children}) => {
         }
     }
 
-    const signIn = (email, password) => {
-        return signInWithEmailAndPassword(auth, email, password)
+    const signIn = async (email, password) => {
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password)
+            setCurrentUser(userCredential.user)
+            return userCredential
+        } catch (error) {
+            console.log('Error', error)
+            setError(true)
+        }
     }
 
     const logout = () => {
@@ -91,12 +100,11 @@ export const AuthContextProvider = ({children}) => {
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
-            console.log(user)
         })
         return () => {
             unsubscribe()
         }
-    }, [])
+    }, [currentUser])
 
     return (
         <UserContext.Provider value = {{ createUser, logout, signIn, googleSignIn, currentUser }}>

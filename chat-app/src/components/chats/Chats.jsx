@@ -30,27 +30,20 @@ export const Chats = () => {
     currentUser.uid && getChats()
   },[currentUser.uid])
 
-  const handleSelect = (user) => {
-    dispatch({ type:'CHANGE_USER', payload: user })
-    const userChats = user.chats || []
-    userChats.forEach(chat => {
-      if (!chats.some(existingChat => existingChat.chatId === chat.chatId)) {
-        setChats(prevChats => [...prevChats, chat]);
-      }
-    })
+  const handleSelect = (selectedUser) => {
+    console.log("Selected user:", selectedUser)
+    dispatch({ type:'CHANGE_USER', payload: selectedUser })
   }
-
-  console.log(chats)
 
 
   return (
     <div className='chats'>
-      {Array.isArray(chats) && Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) => (
+      {Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).map((chat) => (
         <UserChat
-          onClick={() => handleSelect(chat)}
           key={chat[0]}
-          photoUrl={chat.userInfo.photoUrl ? chat.userInfo.photoUrl : ""}
-          displayName={chat.userInfo.displayName ? chat.userInfo.displayName : ""}
+          onClick={() => handleSelect(chat[1].userInfo)}
+          photoUrl={chat[1].userInfo.photoURL}
+          displayName={chat[1].userInfo.displayName}
           lastMessage={chat.lastMessage?.text}
         />
       ))}
