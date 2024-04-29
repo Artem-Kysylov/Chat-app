@@ -18,7 +18,7 @@ export const Message = ({ message }) => {
 
   return (
     <div ref={ref}
-    className={`message__wrapper ${message.senderId === user.uid && 'owner'}`}>
+      className={`message__wrapper ${message.senderId === currentUser.uid && 'owner'}`}>
       <div className="message__info ">
           <img 
             className='message__info-img' 
@@ -31,7 +31,7 @@ export const Message = ({ message }) => {
           <span className='message__date'>Just now</span>
       </div>
       <div className="message__info-content">
-          <p className="message__info-content-text">{message.text}</p>
+          <p className="message__info-content-text">{message.text && message.text}</p>
           {message.img && 
             <img 
               className='message__info-content-img' 

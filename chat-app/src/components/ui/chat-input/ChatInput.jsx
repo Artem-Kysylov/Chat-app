@@ -1,10 +1,20 @@
 // Import libraries 
 import React, { useState } from 'react'
 import { GoPaperclip } from "react-icons/go"
-import { db } from '../../../firebase'
-import { Timestamp, doc, serverTimestamp, updateDoc } from "firebase/firestore"
+import { db, storage } from '../../../firebase'
+import { 
+  arrayUnion,
+  Timestamp, 
+  doc, 
+  serverTimestamp, 
+  updateDoc 
+} from "firebase/firestore"
 import { v4 as uuid } from 'uuid'
-import { uploadBytesResumable } from 'firebase/storage'
+import { 
+  getDownloadURL, 
+  ref, 
+  uploadBytesResumable 
+} from 'firebase/storage'
 
 // Import context 
 import { UserAuth } from '../../../context/AuthContext'
@@ -12,7 +22,6 @@ import { ChatUser } from '../../../context/ChatContext'
 
 // Import components 
 import { ChatButton } from '../../ui/chat-button/ChatButton'
-import { arrayUnion } from 'firebase/firestore'
 
 
 export const ChatInput = () => {
@@ -20,11 +29,14 @@ export const ChatInput = () => {
   const [text, setText] = useState('')
   const [img, setImg] = useState(null) 
     // Context 
-  const { user } = UserAuth()
+  const { currentUser } = UserAuth()
   const { data } = ChatUser()
 
   // Handlesend function 
   const handleSend = async () => {
+    if (!text && !img) {
+      return;
+    }
     if(img) {
       const storageRef = ref(storage, uuid())
       const uploadTask = uploadBytesResumable(storageRef, img)
@@ -38,7 +50,7 @@ export const ChatInput = () => {
               messages: arrayUnion({
                 id: uuid(),
                 text,
-                senderId: user.uid,
+                senderId: currentUser.uid,
                 date: Timestamp.now(),
                 img: downloadURL,
               }),
@@ -48,23 +60,23 @@ export const ChatInput = () => {
       )
     } else {
       await updateDoc(doc(db, 'chats', data.chatId), {
-        messages: arrayUnion({
+          messages: arrayUnion({
           id: uuid(),
           text,
-          senderId: user.uid,
+          senderId: currentUser.uid,
           date: Timestamp.now(),
         })
       })
     }
 
-    await updateDoc(doc(db, 'userChats', user.uid), {
+    await updateDoc(doc(db, 'userChats', currentUser.uid), {
       [data.chatId + '.lastMessage']: {
         text
       },
       [data.chatId + '.date']: serverTimestamp()
     })
 
-    await updateDoc(doc(db, 'userChats', data.chatUser.uid), {
+    await updateDoc(doc(db, 'userChats', data.user.uid), {
       [data.chatId + '.lastMessage']: {
         text
       },
@@ -83,7 +95,7 @@ export const ChatInput = () => {
             type="file" 
             style={{ display: 'none'}} 
             id='file'
-            onChange={(e) => setImg(e => e.target.files[0])}           
+            onChange={(e) => setImg(e.target.files[0])}            
           />
           <label htmlFor="file">
             <GoPaperclip 
