@@ -44,7 +44,7 @@ export const Chats = () => {
           onClick={() => handleSelect(chat[1].userInfo)}
           photoUrl={chat[1].userInfo.photoURL}
           displayName={chat[1].userInfo.displayName}
-          lastMessage={chat.lastMessage?.text}
+          lastMessage={chat[1].lastMessage}
         />
       ))}
     </div>

@@ -71,14 +71,14 @@ export const ChatInput = () => {
 
     await updateDoc(doc(db, 'userChats', currentUser.uid), {
       [data.chatId + '.lastMessage']: {
-        text
+        text,
       },
       [data.chatId + '.date']: serverTimestamp()
     })
 
     await updateDoc(doc(db, 'userChats', data.user.uid), {
       [data.chatId + '.lastMessage']: {
-        text
+        text,
       },
       [data.chatId + '.date']: serverTimestamp()
     })
@@ -95,7 +95,7 @@ export const ChatInput = () => {
             type="file" 
             style={{ display: 'none'}} 
             id='file'
-            onChange={(e) => setImg(e.target.files[0])}            
+            onChange={(e) => setImg(e.target.files[0])}           
           />
           <label htmlFor="file">
             <GoPaperclip 

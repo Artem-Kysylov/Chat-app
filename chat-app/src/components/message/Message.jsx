@@ -31,7 +31,7 @@ export const Message = ({ message }) => {
           <span className='message__date'>Just now</span>
       </div>
       <div className="message__info-content">
-          <p className="message__info-content-text">{message.text && message.text}</p>
+        {message.text && <p className="message__info-content-text">{message.text}</p>}
           {message.img && 
             <img 
               className='message__info-content-img' 
