@@ -27,7 +27,6 @@ export const AuthContextProvider = ({children}) => {
     const createUser = async (email, password, displayName, file) => {
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
-            console.log(userCredential.user)
             setCurrentUser(userCredential.user)
             const fileName = `${Date.now()}_${file.name}`
             const storageRef = ref(storage, fileName)
@@ -88,6 +87,7 @@ export const AuthContextProvider = ({children}) => {
                     email: user.email,
                     photoURL: user.photoURL
                 })
+                await setDoc(doc(db, 'userChats', user.uid), {})
             }
             
         } catch(error) {
